@@ -359,7 +359,6 @@
   .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 </style>
-<base target="_blank">
 </head>
 <body>
 
@@ -447,7 +446,7 @@
   <div class="container">
     <div class="advisor-inner">
       <div class="advisor-photo-wrap">
-        <img id="luisPhoto" alt="Luis — Instructor y Acompañante" class="advisor-photo">
+        <img id="luisPhoto" src="https://i.imgur.com/gW5tB6m.jpeg" alt="Luis — Instructor y Acompañante" class="advisor-photo">
         <div class="advisor-badge" data-i18n="adv_badge">✓ Instructor Certificado</div>
       </div>
       <div>
@@ -530,7 +529,7 @@
       <div class="price-card">
         <h3 data-i18n="p3_name">Licencia Motocicleta</h3>
         <p style="color:var(--muted);font-size:0.88rem" data-i18n="p3_sub">Requiere Clase E previa</p>
-        <div class="price-amount"><sup>$</sup>650</div>
+        <div class="price-amount"><sup>$</sup>550</div>
         <p class="price-note" data-i18n="p3_note">Incluye moto para el examen</p>
         <ul class="price-features">
           <li>Examen teórico online</li>
@@ -587,7 +586,7 @@
   <a href="https://wa.me/584264014765" class="fab fab-wa" target="_blank" id="fabWA" title="WhatsApp">
     <span class="fab-label">WhatsApp</span>
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
   </a>
 
@@ -640,19 +639,7 @@
 
 <script>
 /* ═══════════════════════════════════════════════
-   1. EMBED LUIS PHOTO — set from base64
-═══════════════════════════════════════════════ */
-// Luis photo from Imgur
-(function() {
-  const img = document.getElementById('luisPhoto');
-  if (img) {
-    img.src = 'https://i.imgur.com/gW5tB6m.jpeg';
-    img.onerror = function() { this.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'; };
-  }
-})();
-
-/* ═══════════════════════════════════════════════
-   2. FLOATING BUTTONS — hide others when chat opens
+   1. FLOATING BUTTONS — hide others when chat opens
 ═══════════════════════════════════════════════ */
 let chatOpen = false;
 
@@ -664,7 +651,6 @@ function toggleChat() {
 
   if (chatOpen) {
     win.classList.add('open');
-    // Hide WA + TG buttons smoothly
     fabWA.style.transform = 'scale(0)';
     fabWA.style.opacity = '0';
     fabWA.style.pointerEvents = 'none';
@@ -673,13 +659,11 @@ function toggleChat() {
     fabTG.style.pointerEvents = 'none';
     fabWA.style.transition = 'all 0.25s';
     fabTG.style.transition = 'all 0.25s';
-    // Send welcome if first open
     if (!window._chatGreeted) {
       window._chatGreeted = true;
     }
   } else {
     win.classList.remove('open');
-    // Show WA + TG again
     fabWA.style.transform = '';
     fabWA.style.opacity = '';
     fabWA.style.pointerEvents = '';
@@ -690,7 +674,7 @@ function toggleChat() {
 }
 
 /* ═══════════════════════════════════════════════
-   3. GROQ API — Sofía chatbot
+   2. GROQ API — Sofía chatbot
 ═══════════════════════════════════════════════ */
 const GROQ_API_KEY = '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';
 const GROQ_MODEL = 'llama3-70b-8192';
@@ -719,7 +703,7 @@ PRUEBAS DE RESIDENCIA EN FLORIDA (2 documentos, menos de 30 días): Extractos ba
 Plan Premium Integral ($550): Gestión completa en 1-2 días. Incluye: capacitación teórica (inglés/español), simulador, examen teórico ilimitado hasta aprobar, examen práctico, curso TLSAE, gestión del documento mismo día. MÁS POPULAR.
 Gestión de Examen Teórico ($450): Capacitación especializada + examen con repeticiones + curso TLSAE + guía ante el ente oficial.
 Gestión de Examen Práctico ($450): Para quienes ya tienen permiso o licencia restringida y solo necesitan certificar manejo. Incluye examen práctico + video de capacitación + gestión de licencia mismo día.
-Licencia para Motocicletas ($650): Requiere Clase E previa. Incluye examen teórico online, examen práctico y uso de moto para la prueba.
+Licencia para Motocicletas ($550): Requiere Clase E previa. Incluye examen teórico online, examen práctico y uso de moto para la prueba.
 Cursos por Multas de Tránsito: Modalidades de 4, 8 o 12 horas para evitar puntos por infracciones. Precio varía según tipo.
 Clases de Conducción: Sesiones personalizadas. Precio según horas requeridas y ubicación.
 NOTA: Los precios NO incluyen impuestos estatales obligatorios de Florida.
@@ -797,7 +781,7 @@ async function sendMsg() {
 }
 
 /* ═══════════════════════════════════════════════
-   4. TRANSLATIONS
+   3. TRANSLATIONS
 ═══════════════════════════════════════════════ */
 const i18n = {
   es: {
@@ -859,7 +843,7 @@ const i18n = {
   },
   pt: {
     nav_cta: "📲 Agendar Consulta",
-    badge: "Serviço disponível agora · Miami · Orlando · Tampa · Doral",
+    badge: "Serviço disponible agora · Miami · Orlando · Tampa · Doral",
     hero_title_raw: "Obtenha sua Carteira<br><em>da Flórida</em><br>em 1-2 dias",
     hero_sub: "Milhares de pessoas chegam à Flórida todos os dias. Não deixe o idioma nem o processo te parar. Te acompanhamos do início ao fim, no seu idioma.",
     hero_cta1: "Falar no WhatsApp", hero_cta2: "Ver Serviços",
@@ -872,7 +856,7 @@ const i18n = {
     hero_title_raw: "Obtenez votre Permis<br><em>de Floride</em><br>en 1-2 jours",
     hero_sub: "Des milliers de personnes arrivent en Floride chaque jour. Ne laissez pas la langue ni le processus vous arrêter.",
     hero_cta1: "WhatsApp", hero_cta2: "Voir les Services",
-    adv_tag: "VOTRE INSTRUCTEUR", adv_title: "Luis<br>Instructeur et<br>Accompagnateur", adv_badge: "✓ Instructeur Certifié",
+    adv_tag: "VOTRE INSTRUCTEUR", adv_title: "Luis<br>Instructeur et<br>Accompagnateur", adv_badge: "✓ Instructeur Certificado",
     chat_status: "● En ligne · Répond instantanément"
   },
   ht: {
@@ -912,16 +896,13 @@ function setLang(lang) {
     }
   });
 
-  // Hero title special handling
   const h1 = document.querySelector('.hero h1');
   if (h1) h1.innerHTML = (t.hero_title_raw || base.hero_title_raw);
 
-  // Update active button
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   const active = document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`);
   if (active) active.classList.add('active');
 
-  // Chat placeholder
   const inp = document.getElementById('chatInput');
   const placeholders = { es: 'Escribe tu pregunta...', en: 'Type your question...', pt: 'Digite sua pergunta...', fr: 'Écrivez votre question...', ht: 'Ekri kesyon ou...' };
   if (inp) inp.placeholder = placeholders[lang] || placeholders.es;
@@ -929,22 +910,14 @@ function setLang(lang) {
   document.documentElement.lang = lang;
 }
 
-/* ═══════════════════════════════════════════════
-   5. INTERSECTION OBSERVER (fade-in)
-═══════════════════════════════════════════════ */
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-/* ═══════════════════════════════════════════════
-   6. INIT
-═══════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
   setLang(detectLang());
 });
 </script>
-
-
 </body>
 </html>
