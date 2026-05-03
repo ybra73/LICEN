@@ -611,169 +611,113 @@ function toggleChat() {
   }
 }
 
-// ── GROQ API Chatbot ──
-const GROQ_API_KEY = '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';
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+// ── GROQ CHATBOT ──
+// GitHub Pages blocks direct calls to api.groq.com (CORS).
+// corsproxy.io acts as relay, forwarding the request with proper CORS headers.
+const GROQ_KEY = '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';
+const TARGET   = 'https://api.groq.com/openai/v1/chat/completions';
+const API_URL  = 'https://corsproxy.io/?' + encodeURIComponent(TARGET);
 
-const SYSTEM_PROMPT = `Eres Sofía, la asistente virtual inteligente y amigable de "Florida License Fast", un servicio especializado en ayudar a migrantes a obtener su licencia de conducir en Florida (USA).
+const SYS = `Eres Sofia, la asistente virtual de Florida License Fast, especializada en ayudar migrantes a obtener la licencia de conducir en Florida (USA). Responde SIEMPRE en el idioma del usuario (espanol, ingles, portugues, frances, creole, etc.). Se calida, profesional y concisa (max 3-4 parrafos). Recomienda contactar WhatsApp +1 (417) 853-2077 para casos especificos.
 
-REGLAS DE COMUNICACIÓN:
-- Responde SIEMPRE en el mismo idioma que el usuario. Si escribe en inglés, responde en inglés. Si escribe en español, responde en español. Si escribe en portugués, francés, créole o cualquier otro idioma, responde en ese idioma.
-- Sé cálida, profesional y empática. Habla como una asesora experta, no como un robot.
-- Mantén las respuestas concisas (máximo 3-4 párrafos cortos).
-- Siempre ofrece contactar por WhatsApp al +1 (417) 853-2077 cuando el cliente quiera comenzar o tenga preguntas específicas de su caso.
+DOCUMENTACION: Pasaporte/Green Card/Permiso Trabajo (obligatorio). Social Security si aplica. 2 pruebas residencia Florida ultimos 30 dias (extractos bancarios, facturas servicios - NO Amazon). Estatus migratorio: I-94, Asilo, Ajuste Cubano, Residencia, CBP ONE.
 
-CONOCIMIENTO DE LA EMPRESA:
+PROCESO: 1) Curso TLSAE alcohol/drogas (no aplica si tiene licencia fisica del pais de origen) 2) Examen teorico 50 preguntas, aprueba con 40 (80%) -> da Permiso de Aprendizaje 3) Examen practico 4) Examen de vista.
 
-DOCUMENTACIÓN REQUERIDA:
-- Identificación Primaria: Pasaporte vigente, Green Card o Permiso de Trabajo
-- Social Security: Obligatorio si el estatus migratorio lo permite (no aplica turistas/estudiantes con ciertas visas)
-- Identificación Secundaria: Licencia de otro país/estado, acta de nacimiento, acta de matrimonio, cédula/ID
-- Estatus Migratorio válido: Visa I-94 (Turista, K, F, J, O, U, E), Asilo, Ajuste Cubano, Residencia, CBP ONE
-- Prueba de Residencia Florida: 2 documentos de últimos 30 días con nombre y dirección (extractos bancarios, facturas de servicios, seguros, contratos de renta). NO se aceptan facturas de Amazon ni comercios electrónicos.
+PRECIOS: Plan Premium $550 (todo incluido, licencia en 1-2 dias, MAS POPULAR). Gestion Examen Teorico $450 (incluye TLSAE + repeticiones). Gestion Examen Practico $450 (para quienes ya tienen permiso). Licencia Moto $650 (requiere Clase E previa). Precios sin impuestos Florida.
 
-PROCESO:
-1. Curso TLSAE (Alcohol y Drogas): Obligatorio y presencial para nuevos conductores. No aplica si tiene licencia física plástica del país de origen.
-2. Examen Teórico: 50 preguntas, aprueba con 40 correctas (80%). Al pasar, se obtiene Permiso de Aprendizaje (Learning Permit).
-3. Examen Práctico (Driving Test): Evaluación de maniobras.
-4. Examen de Vista: Obligatorio en las oficinas de tránsito.
+MENORES 18: TLSAE online 6h. Esperar 1 ano y 1 dia con permiso o mayoria de edad.
 
-PLANES Y PRECIOS:
-- Plan Premium Integral ($550): Licencia en máximo 2 días. Incluye: capacitación teórica (inglés/español), simulador, examen teórico (intentos incluidos), examen práctico, curso TLSAE, acompañamiento DMV el mismo día. EL MÁS POPULAR.
-- Gestión Examen Teórico ($450): Capacitación especializada, examen teórico en sede con repeticiones incluidas, curso alcohol y drogas, guía para trámite final.
-- Gestión Examen Práctico ($450): Para quienes ya tienen permiso o licencia restringida y saben manejar. Incluye examen práctico, video de capacitación, gestión de licencia inmediata.
-- Licencia para Motocicletas ($650): Requiere tener previamente Clase E. Cubre examen teórico online, examen práctico, uso del vehículo para la prueba.
+CONTACTO: WhatsApp +1 (417) 853-2077 | Telegram @licenciaUSA_bot | Miami, Orlando, Tampa, Doral, Kissimmee`;
 
-SERVICIOS ADICIONALES:
-- Clases de Conducción: Personalizadas según nivel y ubicación (precio variable por horas/ubicación)
-- Cursos por Infracciones: 4, 8 o 12 horas (presenciales o virtuales) para evitar puntos en licencia por tickets
+let history = [];
+let busy = false;
 
-MENORES DE 18 AÑOS:
-- Curso TLSAE obligatorio en modalidad online (6 horas)
-- Esperar 1 año y 1 día con permiso de aprendizaje o llegar a mayoría de edad antes del examen práctico
-
-NOTAS LEGALES:
-- Precios no incluyen impuestos estatales de Florida
-- Exámenes externos deben validarse ante DMV/FLHSMV
-- Existe 1% de probabilidad de que el gobierno pida repetir una evaluación aleatoriamente (en ese caso se provee capacitación adicional sin costo extra)
-
-CONTACTO:
-- WhatsApp: +1 (417) 853-2077
-- Telegram: @licenciaUSA_bot
-- Ciudades de servicio: Miami, Orlando, Tampa, Doral, Kissimmee
-
-Cuando no sepas algo específico del caso del cliente (como su estatus migratorio exacto), pídele que contacte directamente por WhatsApp para una asesoría personalizada gratuita.`;
-
-let conversationHistory = [];
-let isSending = false;
-
-async function callGroqAPI(userMessage) {
-  conversationHistory.push({ role: 'user', content: userMessage });
-
-  const response = await fetch(GROQ_API_URL, {
+async function callGroq(msg) {
+  history.push({ role: 'user', content: msg });
+  const payload = {
+    model: 'llama3-70b-8192',
+    max_tokens: 600,
+    temperature: 0.7,
+    messages: [{ role: 'system', content: SYS }, ...history]
+  };
+  const res = await fetch(API_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${GROQ_API_KEY}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + GROQ_KEY
     },
-    body: JSON.stringify({
-      model: 'llama3-70b-8192',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...conversationHistory
-      ],
-      max_tokens: 600,
-      temperature: 0.7,
-      stream: false
-    })
+    body: JSON.stringify(payload)
   });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${response.status}`);
+  if (!res.ok) {
+    const e = await res.json().catch(()=>({}));
+    throw new Error('HTTP ' + res.status + ': ' + (e.error?.message || res.statusText));
   }
-
-  const data = await response.json();
-  const assistantMsg = data.choices[0]?.message?.content || 'Lo siento, no pude procesar tu mensaje.';
-  conversationHistory.push({ role: 'assistant', content: assistantMsg });
-
-  // Keep history manageable (last 12 turns)
-  if (conversationHistory.length > 24) {
-    conversationHistory = conversationHistory.slice(-24);
-  }
-
-  return assistantMsg;
+  const data = await res.json();
+  const reply = data.choices?.[0]?.message?.content || 'Lo siento, no obtuve respuesta.';
+  history.push({ role: 'assistant', content: reply });
+  if (history.length > 20) history = history.slice(-20);
+  return reply;
 }
 
-function appendMsg(text, cls) {
-  const div = document.createElement('div');
-  div.className = `msg ${cls}`;
-  div.innerHTML = text;
-  const msgs = document.getElementById('chatMessages');
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
+function addMsg(html, cls) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.innerHTML = html;
+  const c = document.getElementById('chatMessages');
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
 }
 
-function showLoader() {
-  const div = document.createElement('div');
-  div.className = 'msg loading';
-  div.id = 'chatLoader';
-  div.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span>';
-  const msgs = document.getElementById('chatMessages');
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+function showDots() {
+  const d = document.createElement('div');
+  d.className = 'msg loading'; d.id = 'dots';
+  d.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span>';
+  const c = document.getElementById('chatMessages');
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
+function hideDots() { const el = document.getElementById('dots'); if(el) el.remove(); }
 
-function removeLoader() {
-  const loader = document.getElementById('chatLoader');
-  if (loader) loader.remove();
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function fmt(s) {
+  return esc(s)
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
 }
 
 async function sendMsg() {
-  if (isSending) return;
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
+  if (busy) return;
+  const inp = document.getElementById('chatInput');
+  const msg = inp.value.trim();
   if (!msg) return;
-
-  input.value = '';
-  isSending = true;
-
-  const sendBtn = document.getElementById('chatSendBtn');
-  sendBtn.disabled = true;
-
-  appendMsg(msg.replace(/</g,'&lt;').replace(/>/g,'&gt;'), 'user');
-  showLoader();
-
+  inp.value = '';
+  busy = true;
+  document.getElementById('chatSendBtn').disabled = true;
+  addMsg(esc(msg), 'user');
+  showDots();
   try {
-    const reply = await callGroqAPI(msg);
-    removeLoader();
-    // Format: convert **bold** to <strong> and newlines to <br>
-    const formatted = reply
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n/g, '<br>');
-    appendMsg(formatted, 'bot');
-  } catch (err) {
-    removeLoader();
-    appendMsg(`⚠️ Error al conectar con el asistente. Por favor escribe directamente a WhatsApp: <a href="https://wa.me/14178532077" target="_blank" style="color:var(--accent)">+1 (417) 853-2077</a>`, 'bot');
-    console.error('Groq API error:', err);
+    const reply = await callGroq(msg);
+    hideDots();
+    addMsg(fmt(reply), 'bot');
+  } catch(err) {
+    hideDots();
+    console.error('Groq:', err);
+    addMsg('Lo siento, hubo un error de conexion. Escribenos por <a href="https://wa.me/14178532077" target="_blank" style="color:var(--accent)">WhatsApp +1 (417) 853-2077</a> y te ayudamos de inmediato.', 'bot');
   } finally {
-    isSending = false;
-    sendBtn.disabled = false;
-    input.focus();
+    busy = false;
+    document.getElementById('chatSendBtn').disabled = false;
+    inp.focus();
   }
 }
 
-// ── i18n translations ──
+// ── i18n ──
 const i18n = {
   es: {
     hero_title_raw: "Obtén tu Licencia<br><em>de Florida</em><br>en 1-2 días",
     hero_sub: "Miles de personas llegan a Florida cada día. No dejes que el idioma ni el proceso te detenga.",
-    nav_cta: "📲 Reservar Cita",
-    stat1: "Reprobados", stat2: "Licencia Express", stat3: "Idiomas disponibles", stat4: "Personalizado",
-    svc_tag: "LO QUE OFRECEMOS",
-    svc_title: "Todo lo que necesitas<br>para conducir legal",
-    svc_sub: "Cada servicio está diseñado para migrantes recién llegados.",
+    nav_cta: "📲 Reservar Cita", stat1: "Reprobados", stat2: "Licencia Express", stat3: "Idiomas disponibles", stat4: "Personalizado",
+    svc_tag: "LO QUE OFRECEMOS", svc_title: "Todo lo que necesitas<br>para conducir legal", svc_sub: "Cada servicio está diseñado para migrantes recién llegados.",
     svc1_title: "Capacitación Teórica", svc1_desc: "Te preparamos para el examen en INGLÉS y en tu idioma.",
     svc2_title: "Paquete PREMIUM", svc2_desc: "Licencia en 1-2 días. TLSAE, teórico, práctico y DMV.",
     svc3_title: "Gestión de Documentos", svc3_desc: "Orientación con requisitos migratorios.",
@@ -844,28 +788,22 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const val = t[key] || base[key];
-    if (val) {
-      if (key === 'hero_title') {
-        el.innerHTML = t.hero_title_raw || base.hero_title_raw;
-      } else {
-        el.innerHTML = val;
-      }
-    }
+    if (val) el.innerHTML = val;
   });
   const h1 = document.querySelector('.hero h1');
-  if (h1) h1.innerHTML = t.hero_title_raw || base.hero_title_raw;
+  if (h1) h1.innerHTML = (t.hero_title_raw || base.hero_title_raw);
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  const active = document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`);
+  const active = document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]');
   if (active) active.classList.add('active');
   const inp = document.getElementById('chatInput');
   if (inp) {
-    const placeholders = { es: 'Escribe tu pregunta...', en: 'Type your question...', pt: 'Digite sua pergunta...', fr: 'Écrivez votre question...', ht: 'Ekri kesyon ou...' };
-    inp.placeholder = placeholders[lang] || placeholders.es;
+    const ph = { es:'Escribe tu pregunta...', en:'Type your question...', pt:'Digite sua pergunta...', fr:'Écrivez votre question...', ht:'Ekri kesyon ou...' };
+    inp.placeholder = ph[lang] || ph.es;
   }
   document.documentElement.lang = lang;
 }
 
-// ── Scroll fade-in observer ──
+// ── Scroll fade-in ──
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08 });
