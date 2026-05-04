@@ -183,9 +183,22 @@
   .price-card.popular { border-color: var(--accent); background: rgba(0,212,255,0.07); }
   .popular-label { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; font-size: 0.65rem; font-weight: 700; padding: 3px 14px; border-radius: 20px; white-space: nowrap; }
   .price-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
-  .price-amount { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; margin: 12px 0 2px; }
-  .price-amount sup { font-size: 1rem; vertical-align: super; }
-  .price-note { font-size: 0.7rem; color: var(--muted); margin-bottom: 16px; }
+  .price-consult-badge {
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.25);
+    color: var(--accent);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 14px 0 10px;
+  }
+  .popular-badge {
+    background: rgba(245,197,24,0.1);
+    border-color: rgba(245,197,24,0.4);
+    color: var(--gold);
+  }
   .price-features { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .price-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8rem; color: var(--muted); }
   .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
@@ -515,11 +528,49 @@
   <div class="container">
     <div class="section-tag" data-i18n="price_tag">PLANES Y PRECIOS</div>
     <h2 class="section-title" data-i18n="price_title">Elige tu plan</h2>
-    <p class="section-sub" data-i18n="price_sub">Sin sorpresas. Precio claro desde el primer día.</p>
+    <p class="section-sub" data-i18n="price_sub">Escríbenos por WhatsApp y te damos el precio personalizado según tu caso.</p>
     <div class="pricing-grid">
-      <div class="price-card"><h3 data-i18n="p1_name">Gestión Examen Teórico</h3><p style="color:var(--muted);font-size:0.8rem" data-i18n="p1_sub">Capacitación + examen teórico</p><div class="price-amount"><sup>$</sup>450</div><p class="price-note" data-i18n="p1_note">Incluye curso TLSAE + repeticiones</p><ul class="price-features"><li>Capacitación especializada teórica</li><li>Simuladores de examen</li><li>Curso de Alcohol y Drogas (TLSAE)</li><li>Examen con repeticiones incluidas</li><li>Guía ante el ente oficial</li></ul><a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20la%20Gestión%20de%20Examen%20Teórico" class="price-cta outline-cta" target="_blank" data-i18n="p_consult">Consultar →</a></div>
-      <div class="price-card popular"><div class="popular-label" data-i18n="p_popular">⭐ MÁS POPULAR</div><h3 data-i18n="p2_name">Plan Premium Integral</h3><p style="color:var(--muted);font-size:0.8rem" data-i18n="p2_sub">Licencia completa en 1-2 días</p><div class="price-amount"><sup>$</sup>550</div><p class="price-note" data-i18n="p2_note">Todo incluido · Sin sorpresas</p><ul class="price-features"><li>Curso TLSAE (Alcohol y Drogas)</li><li>Capacitación teórica en tu idioma</li><li>Simulador + examen ilimitado hasta aprobar</li><li>Examen práctico incluido</li><li>Acompañamiento total en el DMV</li><li>Gestión del documento mismo día</li><li>Garantía: 0% reprobados</li></ul><a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20el%20Plan%20Premium" class="price-cta primary-cta" target="_blank" data-i18n="p_start">¡Comenzar Ahora! →</a></div>
-      <div class="price-card"><h3 data-i18n="p3_name">Licencia Motocicleta</h3><p style="color:var(--muted);font-size:0.8rem" data-i18n="p3_sub">Requiere Clase E previa</p><div class="price-amount"><sup>$</sup>650</div><p class="price-note" data-i18n="p3_note">Incluye moto para el examen</p><ul class="price-features"><li>Examen teórico online</li><li>Formación práctica en moto</li><li>Uso de motocicleta para la prueba</li><li>Gestión de licencia mismo día</li></ul><a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20la%20Licencia%20de%20Motocicleta" class="price-cta outline-cta" target="_blank" data-i18n="p_consult">Consultar →</a></div>
+      <div class="price-card">
+        <h3 data-i18n="p1_name">Gestión Examen Teórico</h3>
+        <p style="color:var(--muted);font-size:0.8rem" data-i18n="p1_sub">Capacitación + examen teórico</p>
+        <div class="price-consult-badge">📲 Consulta precio por WhatsApp</div>
+        <ul class="price-features">
+          <li>Capacitación especializada teórica</li>
+          <li>Simuladores de examen</li>
+          <li>Curso de Alcohol y Drogas (TLSAE)</li>
+          <li>Examen con repeticiones incluidas</li>
+          <li>Guía ante el ente oficial</li>
+        </ul>
+        <a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20la%20Gestión%20de%20Examen%20Teórico%2C%20¿cuál%20es%20el%20precio%3F" class="price-cta outline-cta" target="_blank" data-i18n="p_consult">Consultar precio →</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-label" data-i18n="p_popular">⭐ MÁS POPULAR</div>
+        <h3 data-i18n="p2_name">Plan Premium Integral</h3>
+        <p style="color:var(--muted);font-size:0.8rem" data-i18n="p2_sub">Licencia completa en 1-2 días</p>
+        <div class="price-consult-badge popular-badge">📲 Consulta precio por WhatsApp</div>
+        <ul class="price-features">
+          <li>Curso TLSAE (Alcohol y Drogas)</li>
+          <li>Capacitación teórica en tu idioma</li>
+          <li>Simulador + examen ilimitado hasta aprobar</li>
+          <li>Examen práctico incluido</li>
+          <li>Acompañamiento total en el DMV</li>
+          <li>Gestión del documento mismo día</li>
+          <li>Garantía: 0% reprobados</li>
+        </ul>
+        <a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20el%20Plan%20Premium%2C%20¿cuál%20es%20el%20precio%3F" class="price-cta primary-cta" target="_blank" data-i18n="p_start">¡Consultar precio ahora! →</a>
+      </div>
+      <div class="price-card">
+        <h3 data-i18n="p3_name">Licencia Motocicleta</h3>
+        <p style="color:var(--muted);font-size:0.8rem" data-i18n="p3_sub">Requiere Clase E previa</p>
+        <div class="price-consult-badge">📲 Consulta precio por WhatsApp</div>
+        <ul class="price-features">
+          <li>Examen teórico online</li>
+          <li>Formación práctica en moto</li>
+          <li>Uso de motocicleta para la prueba</li>
+          <li>Gestión de licencia mismo día</li>
+        </ul>
+        <a href="https://wa.me/14178532077?text=Hola%2C%20me%20interesa%20la%20Licencia%20de%20Motocicleta%2C%20¿cuál%20es%20el%20precio%3F" class="price-cta outline-cta" target="_blank" data-i18n="p_consult">Consultar precio →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -584,7 +635,7 @@
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="msg bot">👋 ¡Hola! Soy <strong>Sofía</strong>, la asistente virtual de <strong>Florida License Fast</strong>. Puedo ayudarte en cualquier idioma sobre tu licencia en Florida — requisitos, documentos, precios y más. ¿En qué te ayudo hoy?</div>
+    <div class="msg bot">👋 ¡Hola! Soy <strong>Sofía</strong>, la asistente virtual de <strong>Florida License Fast</strong>. Puedo ayudarte en cualquier idioma sobre tu licencia en Florida — requisitos, documentos, proceso y más. ¿En qué te ayudo hoy?</div>
   </div>
   <div class="chat-footer">
     <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendMsg(); }">
@@ -617,57 +668,24 @@ function toggleChat() {
 }
 
 // ── GROQ CHATBOT ──
-// GitHub Pages bloquea llamadas directas a api.groq.com (CORS).
-// Usamos múltiples proxies con fallback automático para máxima disponibilidad.
+// Groq permite llamadas directas desde el browser (CORS habilitado en su API).
 const GROQ_KEY = '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';
-const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_URL  = 'https://api.groq.com/openai/v1/chat/completions';
 
-// Lista de proxies CORS en orden de preferencia
-const PROXY_LIST = [
-  url => 'https://corsproxy.io/?' + encodeURIComponent(url),
-  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
-  url => 'https://proxy.cors.sh/' + url,
-  url => 'https://cors-anywhere.herokuapp.com/' + url,
-];
+const SYS = `Eres Sofia, la asistente virtual de Florida License Fast, especializada en ayudar migrantes a obtener la licencia de conducir en Florida (USA). Responde SIEMPRE en el idioma del usuario (espanol, ingles, portugues, frances, creole, etc.). Se calida, profesional y concisa (max 3-4 parrafos).
 
-const SYS = `Eres Sofia, la asistente virtual de Florida License Fast, especializada en ayudar migrantes a obtener la licencia de conducir en Florida (USA). Responde SIEMPRE en el idioma del usuario (espanol, ingles, portugues, frances, creole, etc.). Se calida, profesional y concisa (max 3-4 parrafos). Recomienda contactar WhatsApp +1 (417) 853-2077 para casos especificos.
+DOCUMENTACION REQUERIDA: Pasaporte/Green Card/Permiso Trabajo (obligatorio). Social Security si aplica. 2 pruebas de residencia en Florida de los ultimos 30 dias (extractos bancarios, facturas de servicios — NO Amazon). Estatus migratorio valido: I-94, Asilo, Ajuste Cubano, Residencia permanente, CBP ONE.
 
-DOCUMENTACION: Pasaporte/Green Card/Permiso Trabajo (obligatorio). Social Security si aplica. 2 pruebas residencia Florida ultimos 30 dias (extractos bancarios, facturas servicios - NO Amazon). Estatus migratorio: I-94, Asilo, Ajuste Cubano, Residencia, CBP ONE.
+PROCESO: 1) Curso TLSAE alcohol/drogas (no aplica si tiene licencia fisica del pais de origen) 2) Examen teorico 50 preguntas, aprueba con 40 correctas (80%) — otorga Permiso de Aprendizaje 3) Examen practico de manejo 4) Examen de vista.
 
-PROCESO: 1) Curso TLSAE alcohol/drogas (no aplica si tiene licencia fisica del pais de origen) 2) Examen teorico 50 preguntas, aprueba con 40 (80%) -> da Permiso de Aprendizaje 3) Examen practico 4) Examen de vista.
+PLANES DISPONIBLES: Plan Premium Integral (licencia completa en 1-2 dias, el mas popular). Gestion Examen Teorico (incluye TLSAE y repeticiones). Gestion Examen Practico (para quienes ya tienen permiso). Licencia Motocicleta (requiere Clase E previa). IMPORTANTE: Para conocer los precios actualizados, indica al usuario que contacte por WhatsApp +1 (417) 853-2077 — los precios se informan de forma personalizada segun cada caso.
 
-PRECIOS: Plan Premium $550 (todo incluido, licencia en 1-2 dias, MAS POPULAR). Gestion Examen Teorico $450 (incluye TLSAE + repeticiones). Gestion Examen Practico $450 (para quienes ya tienen permiso). Licencia Moto $650 (requiere Clase E previa). Precios sin impuestos Florida.
+MENORES DE 18: TLSAE online 6 horas. Deben esperar 1 ano y 1 dia con el permiso de aprendizaje o llegar a la mayoria de edad.
 
-MENORES 18: TLSAE online 6h. Esperar 1 ano y 1 dia con permiso o mayoria de edad.
-
-CONTACTO: WhatsApp +1 (417) 853-2077 | Telegram @licenciaUSA_bot | Miami, Orlando, Tampa, Doral, Kissimmee`;
+CONTACTO: WhatsApp +1 (417) 853-2077 | Telegram @licenciaUSA_bot | Servicio en Miami, Orlando, Tampa, Doral, Kissimmee y toda Florida.`;
 
 let history = [];
 let busy = false;
-let workingProxyIndex = 0; // guarda el proxy que funciona
-
-async function tryFetch(proxyFn, payload) {
-  const url = proxyFn(GROQ_ENDPOINT);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + GROQ_KEY,
-      'x-requested-with': 'XMLHttpRequest' // necesario para algunos proxies
-    },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    const e = await res.json().catch(() => ({}));
-    throw new Error('HTTP ' + res.status + ': ' + (e.error?.message || res.statusText));
-  }
-  const data = await res.json();
-  // allorigins devuelve {contents: "..."} — manejar ambos formatos
-  if (data.contents) {
-    return JSON.parse(data.contents);
-  }
-  return data;
-}
 
 async function callGroq(msg) {
   history.push({ role: 'user', content: msg });
@@ -678,29 +696,27 @@ async function callGroq(msg) {
     messages: [{ role: 'system', content: SYS }, ...history]
   };
 
-  // Intentar desde el proxy que funcionó antes, luego los demás
-  const orderedProxies = [
-    ...PROXY_LIST.slice(workingProxyIndex),
-    ...PROXY_LIST.slice(0, workingProxyIndex)
-  ];
+  const res = await fetch(GROQ_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + GROQ_KEY
+    },
+    body: JSON.stringify(payload)
+  });
 
-  let lastError;
-  for (let i = 0; i < orderedProxies.length; i++) {
-    try {
-      const data = await tryFetch(orderedProxies[i], payload);
-      const reply = data.choices?.[0]?.message?.content;
-      if (!reply) throw new Error('Respuesta vacía del modelo');
-      // Guardar índice del proxy que funcionó
-      workingProxyIndex = PROXY_LIST.indexOf(orderedProxies[i]);
-      history.push({ role: 'assistant', content: reply });
-      if (history.length > 20) history = history.slice(-20);
-      return reply;
-    } catch (err) {
-      lastError = err;
-      console.warn('Proxy ' + i + ' falló:', err.message, '— intentando siguiente...');
-    }
+  if (!res.ok) {
+    const e = await res.json().catch(() => ({}));
+    throw new Error('HTTP ' + res.status + ': ' + (e.error?.message || res.statusText));
   }
-  throw lastError || new Error('Todos los proxies fallaron');
+
+  const data = await res.json();
+  const reply = data.choices?.[0]?.message?.content;
+  if (!reply) throw new Error('Respuesta vacía');
+
+  history.push({ role: 'assistant', content: reply });
+  if (history.length > 20) history = history.slice(-20);
+  return reply;
 }
 
 function addMsg(html, cls) {
@@ -782,11 +798,11 @@ const i18n = {
     t1_quote: '"Llegué de Venezuela sin inglés y sin saber nada del DMV. Luis me guió paso a paso. En 2 días tenía mi licencia Clase E. ¡Increíble!"',
     t2_quote: '"Tenía miedo de reprobar en inglés. Con la preparación de Luis lo aprobé al primer intento."',
     t3_quote: '"Vine de Haiti y me comunicaron todo en créole. El proceso fue claro y rápido."',
-    price_tag: "PLANES Y PRECIOS", price_title: "Elige tu plan", price_sub: "Sin sorpresas. Precio claro desde el primer día.",
-    p1_name: "Gestión Examen Teórico", p1_sub: "Capacitación + examen teórico", p1_note: "Incluye curso TLSAE + repeticiones",
-    p2_name: "Plan Premium Integral", p2_sub: "Licencia completa en 1-2 días", p2_note: "Todo incluido · Sin sorpresas",
-    p3_name: "Licencia Motocicleta", p3_sub: "Requiere Clase E previa", p3_note: "Incluye moto para el examen",
-    p_consult: "Consultar →", p_start: "¡Comenzar Ahora! →", p_popular: "⭐ MÁS POPULAR",
+    price_tag: "NUESTROS PLANES", price_title: "Elige tu plan", price_sub: "Escríbenos por WhatsApp y te damos el precio personalizado según tu caso.",
+    p1_name: "Gestión Examen Teórico", p1_sub: "Capacitación + examen teórico", p1_note: "",
+    p2_name: "Plan Premium Integral", p2_sub: "Licencia completa en 1-2 días", p2_note: "",
+    p3_name: "Licencia Motocicleta", p3_sub: "Requiere Clase E previa", p3_note: "",
+    p_consult: "Consultar precio →", p_start: "¡Consultar precio ahora! →", p_popular: "⭐ MÁS POPULAR",
     lang_tag: "ATENCIÓN MULTILINGÜE", lang_title: "Atendemos en tu idioma", lang_sub: "Nadie debería perderse por no hablar inglés.", lang_more: "+Más idiomas",
     footer_sub: "Instructor: Luis · WhatsApp: +1 (417) 853-2077",
     flink1: "Servicios", flink2: "El Instructor", flink3: "Testimonios", flink4: "Precios",
