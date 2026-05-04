@@ -222,7 +222,6 @@
     gap: 12px;
   }
 
-  /* Pulse ring animation for all FABs */
   @keyframes fab-pulse {
     0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.25), 0 4px 16px rgba(0,0,0,0.3); }
     50%  { box-shadow: 0 0 0 10px rgba(255,255,255,0), 0 4px 16px rgba(0,0,0,0.3); }
@@ -386,7 +385,6 @@
   .chat-send:hover { transform: scale(1.1); }
   .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* error/status in chat */
   .chat-error { font-size: 0.7rem; color: #ff6b6b; text-align: center; padding: 4px 8px; }
 
   /* ── FOOTER ── */
@@ -526,7 +524,7 @@
 <!-- PRICING -->
 <section class="pricing fade-in" id="precios">
   <div class="container">
-    <div class="section-tag" data-i18n="price_tag">PLANES Y PRECIOS</div>
+    <div class="section-tag" data-i18n="price_tag">NUESTROS PLANES</div>
     <h2 class="section-title" data-i18n="price_title">Elige tu plan</h2>
     <p class="section-sub" data-i18n="price_sub">Escríbenos por WhatsApp y te damos el precio personalizado según tu caso.</p>
     <div class="pricing-grid">
@@ -667,55 +665,31 @@ function toggleChat() {
   }
 }
 
-// ── GROQ CHATBOT ──
-// Groq permite llamadas directas desde el browser (CORS habilitado en su API).
-const GROQ_KEY = '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';
-const GROQ_URL  = 'https://api.groq.com/openai/v1/chat/completions';
-
-const SYS = `Eres Sofia, la asistente virtual de Florida License Fast, especializada en ayudar migrantes a obtener la licencia de conducir en Florida (USA). Responde SIEMPRE en el idioma del usuario (espanol, ingles, portugues, frances, creole, etc.). Se calida, profesional y concisa (max 3-4 parrafos).
-
-DOCUMENTACION REQUERIDA: Pasaporte/Green Card/Permiso Trabajo (obligatorio). Social Security si aplica. 2 pruebas de residencia en Florida de los ultimos 30 dias (extractos bancarios, facturas de servicios — NO Amazon). Estatus migratorio valido: I-94, Asilo, Ajuste Cubano, Residencia permanente, CBP ONE.
-
-PROCESO: 1) Curso TLSAE alcohol/drogas (no aplica si tiene licencia fisica del pais de origen) 2) Examen teorico 50 preguntas, aprueba con 40 correctas (80%) — otorga Permiso de Aprendizaje 3) Examen practico de manejo 4) Examen de vista.
-
-PLANES DISPONIBLES: Plan Premium Integral (licencia completa en 1-2 dias, el mas popular). Gestion Examen Teorico (incluye TLSAE y repeticiones). Gestion Examen Practico (para quienes ya tienen permiso). Licencia Motocicleta (requiere Clase E previa). IMPORTANTE: Para conocer los precios actualizados, indica al usuario que contacte por WhatsApp +1 (417) 853-2077 — los precios se informan de forma personalizada segun cada caso.
-
-MENORES DE 18: TLSAE online 6 horas. Deben esperar 1 ano y 1 dia con el permiso de aprendizaje o llegar a la mayoria de edad.
-
-CONTACTO: WhatsApp +1 (417) 853-2077 | Telegram @licenciaUSA_bot | Servicio en Miami, Orlando, Tampa, Doral, Kissimmee y toda Florida.`;
+// ── SOFIA CHATBOT — Backend seguro en Render ──
+// ✅ API key protegida en el servidor, nunca expuesta en el HTML
+const BACKEND_URL = 'https://florida-chat-backend.onrender.com/chat';
 
 let history = [];
 let busy = false;
 
 async function callGroq(msg) {
   history.push({ role: 'user', content: msg });
-  const payload = {
-    model: 'llama3-70b-8192',
-    max_tokens: 600,
-    temperature: 0.7,
-    messages: [{ role: 'system', content: SYS }, ...history]
-  };
+  if (history.length > 20) history = history.slice(-20);
 
-  const res = await fetch(GROQ_URL, {
+  const res = await fetch(BACKEND_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + GROQ_KEY
-    },
-    body: JSON.stringify(payload)
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: history })
   });
 
   if (!res.ok) {
     const e = await res.json().catch(() => ({}));
-    throw new Error('HTTP ' + res.status + ': ' + (e.error?.message || res.statusText));
+    throw new Error('HTTP ' + res.status + ': ' + (e.error || res.statusText));
   }
 
-  const data = await res.json();
-  const reply = data.choices?.[0]?.message?.content;
-  if (!reply) throw new Error('Respuesta vacía');
-
+  const data  = await res.json();
+  const reply = data.reply || 'Lo siento, no obtuve respuesta.';
   history.push({ role: 'assistant', content: reply });
-  if (history.length > 20) history = history.slice(-20);
   return reply;
 }
 
