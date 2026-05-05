@@ -659,23 +659,10 @@ function toggleChat() {
   }
 }
 
-// ── SOFIA CHATBOT — Google Apps Script ──
+// ── SOFIA CHATBOT — Google Apps Script (estructura Academia) ──
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwaMBZ6o2sAVrh_xjpM3Wg4xEvq2xibx2tuXiyCZ3-bgv1ALuXeN6sVkFTSIw6Zd_juAw/exec';
 
-let history = [];
 let busy = false;
-
-async function callGroq(msg) {
-  const res = await fetch(GAS_URL + '?message=' + encodeURIComponent(msg));
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  const data = await res.json();
-  const reply = data.answer || data.reply || '';
-  if (!reply) throw new Error('Respuesta vacía');
-  history.push({ role: 'user', content: msg });
-  history.push({ role: 'assistant', content: reply });
-  if (history.length > 20) history = history.slice(-20);
-  return reply;
-}
 
 function addMsg(html, cls) {
   const d = document.createElement('div');
@@ -695,31 +682,27 @@ function showDots() {
 }
 function hideDots() { const el = document.getElementById('dots'); if(el) el.remove(); }
 
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function fmt(s) {
-  return esc(s)
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\n/g,'<br>');
-}
-
 async function sendMsg() {
   if (busy) return;
   const inp = document.getElementById('chatInput');
-  const msg = inp.value.trim();
-  if (!msg) return;
+  const txt = inp.value.trim();
+  if (!txt) return;
+
   inp.value = '';
   busy = true;
   document.getElementById('chatSendBtn').disabled = true;
-  addMsg(esc(msg), 'user');
+
+  addMsg(txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'), 'user');
   showDots();
+
   try {
-    const reply = await callGroq(msg);
+    const res  = await fetch(GAS_URL + '?message=' + encodeURIComponent(txt));
+    const data = await res.json();
+    const reply = (data.answer || data.reply || '').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
     hideDots();
-    addMsg(fmt(reply), 'bot');
+    addMsg(reply || '⚠️ Sin respuesta.', 'bot');
   } catch(err) {
     hideDots();
-    console.error('Groq:', err);
     addMsg('⚠️ Sin conexión ahora mismo. Contáctanos directamente:<br><br>📲 <a href="https://wa.me/14178532077" target="_blank" style="color:var(--wa);font-weight:700">WhatsApp +1 (417) 853-2077</a><br>✈️ <a href="https://t.me/licenciaUSA_bot" target="_blank" style="color:var(--tg);font-weight:700">Telegram @licenciaUSA_bot</a>', 'bot');
   } finally {
     busy = false;
