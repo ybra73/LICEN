@@ -487,14 +487,10 @@
 <section class="advisor fade-in" id="asesor">
   <div class="container">
     <div class="advisor-inner">
-      <div class="advisor-photo-wrap">
-        <img id="luisPhoto" class="advisor-photo" alt="Luis — Instructor">
-        <div class="advisor-badge" data-i18n="adv_badge">✓ Instructor Certificado</div>
-      </div>
       <div>
-        <div class="section-tag" data-i18n="adv_tag">TU ASESOR PERSONAL</div>
-        <h2 data-i18n="adv_title">Luis<br>Instructor y<br>Acompañante</h2>
-        <p style="color:var(--muted); margin-top:12px; line-height:1.6; font-size:0.9rem" data-i18n="adv_desc">Más de 20 años de experiencia en administración y gestión. Especialista en orientar a migrantes recién llegados a Florida para obtener su licencia de conducir de forma rápida, legal y sin estrés.</p>
+        <div class="section-tag" data-i18n="adv_tag">NUESTROS INSTRUCTORES</div>
+        <h2 data-i18n="adv_title">Instructores<br>Especializados en<br>Migrantes</h2>
+        <p style="color:var(--muted); margin-top:12px; line-height:1.6; font-size:0.9rem" data-i18n="adv_desc">Más de 20 años de experiencia en administración y gestión. Especializados en orientar a migrantes recién llegados a Florida para obtener su licencia de conducir de forma rápida, legal y sin estrés.</p>
         <ul class="advisor-perks">
           <li><span>✓</span> <span data-i18n="perk1">Asesoría personalizada según tu status migratorio</span></li>
           <li><span>✓</span> <span data-i18n="perk2">Acompañamiento total en el DMV el día del examen</span></li>
@@ -593,7 +589,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">🚗 Florida License Fast</div>
-    <p class="footer-sub" data-i18n="footer_sub">Instructor: Luis · WhatsApp: +1 (417) 853-2077 · Miami · Orlando · Tampa · Doral · Kissimmee</p>
+    <p class="footer-sub" data-i18n="footer_sub">WhatsApp: +1 (417) 853-2077 · Miami · Orlando · Tampa · Doral · Kissimmee</p>
     <div class="footer-links">
       <a href="#servicios" data-i18n="flink1">Servicios</a>
       <a href="#asesor" data-i18n="flink2">El Instructor</a>
@@ -642,9 +638,7 @@
 </div>
 
 <script>
-// ── Luis photo ──
-document.getElementById('luisPhoto').src = 'https://i.imgur.com/gW5tB6m.jpeg';
-document.getElementById('luisPhoto').onerror = function() { this.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'; };
+
 
 // ── Chat open/close ──
 let chatOpen = false;
@@ -665,31 +659,21 @@ function toggleChat() {
   }
 }
 
-// ── SOFIA CHATBOT — Backend seguro en Render ──
-// ✅ API key protegida en el servidor, nunca expuesta en el HTML
-const BACKEND_URL = 'https://florida-chat-backend.onrender.com/chat';
+// ── SOFIA CHATBOT — Google Apps Script ──
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwaMBZ6o2sAVrh_xjpM3Wg4xEvq2xibx2tuXiyCZ3-bgv1ALuXeN6sVkFTSIw6Zd_juAw/exec';
 
 let history = [];
 let busy = false;
 
 async function callGroq(msg) {
+  const res = await fetch(GAS_URL + '?message=' + encodeURIComponent(msg));
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  const reply = data.answer || data.reply || '';
+  if (!reply) throw new Error('Respuesta vacía');
   history.push({ role: 'user', content: msg });
-  if (history.length > 20) history = history.slice(-20);
-
-  const res = await fetch(BACKEND_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: history })
-  });
-
-  if (!res.ok) {
-    const e = await res.json().catch(() => ({}));
-    throw new Error('HTTP ' + res.status + ': ' + (e.error || res.statusText));
-  }
-
-  const data  = await res.json();
-  const reply = data.reply || 'Lo siento, no obtuve respuesta.';
   history.push({ role: 'assistant', content: reply });
+  if (history.length > 20) history = history.slice(-20);
   return reply;
 }
 
@@ -763,7 +747,7 @@ const i18n = {
     step2_title: "Cita Personal", step2_desc: "Analizamos tu caso.",
     step3_title: "Preparación", step3_desc: "Curso TLSAE, teoría, práctica.",
     step4_title: "¡Licencia!", step4_desc: "Te acompañamos al DMV.",
-    adv_tag: "TU INSTRUCTOR PERSONAL", adv_title: "Luis<br>Instructor y<br>Acompañante", adv_badge: "✓ Instructor Certificado",
+    adv_tag: "NUESTROS INSTRUCTORES", adv_title: "Instructores<br>Especializados en<br>Migrantes", adv_badge: "✓ Instructores Certificados",
     adv_desc: "Más de 20 años de experiencia.",
     perk1: "Asesoría según tu status migratorio", perk2: "Acompañamiento total en el DMV",
     perk3: "Atención en español, inglés y otros idiomas", perk4: "Revisión completa de documentos",
@@ -778,7 +762,7 @@ const i18n = {
     p3_name: "Licencia Motocicleta", p3_sub: "Requiere Clase E previa", p3_note: "",
     p_consult: "Consultar precio →", p_start: "¡Consultar precio ahora! →", p_popular: "⭐ MÁS POPULAR",
     lang_tag: "ATENCIÓN MULTILINGÜE", lang_title: "Atendemos en tu idioma", lang_sub: "Nadie debería perderse por no hablar inglés.", lang_more: "+Más idiomas",
-    footer_sub: "Instructor: Luis · WhatsApp: +1 (417) 853-2077",
+    footer_sub: "WhatsApp: +1 (417) 853-2077",
     flink1: "Servicios", flink2: "El Instructor", flink3: "Testimonios", flink4: "Precios",
     footer_copy: "© 2025 Florida License Fast · Luis · Servicio de asesoría independiente · No somos el DMV oficial",
     chat_status: "● En línea · Responde al instante"
@@ -787,28 +771,28 @@ const i18n = {
     hero_title_raw: "Get your Florida<br><em>Driver License</em><br>in 1-2 days",
     hero_sub: "Thousands of people arrive in Florida daily. Don't let the language or the process stop you.",
     nav_cta: "📲 Book Appointment", stat1: "Zero Failures", stat2: "Express License", stat3: "Languages", stat4: "Personalized",
-    adv_tag: "YOUR PERSONAL INSTRUCTOR", adv_title: "Luis<br>Instructor &<br>Guide", adv_badge: "✓ Certified Instructor",
-    chat_status: "● Online · Replies instantly", footer_sub: "Instructor: Luis · WhatsApp: +1 (417) 853-2077"
+    adv_tag: "OUR INSTRUCTORS", adv_title: "Certified<br>Instructors<br>& Guides", adv_badge: "✓ Certified Instructors",
+    chat_status: "● Online · Replies instantly", footer_sub: "WhatsApp: +1 (417) 853-2077"
   },
   pt: {
     hero_title_raw: "Obtenha sua Carteira<br><em>da Flórida</em><br>em 1-2 dias",
     hero_sub: "Milhares de pessoas chegam à Flórida todos os dias.",
     nav_cta: "📲 Agendar Consulta",
-    adv_tag: "SEU INSTRUTOR PESSOAL", adv_title: "Luis<br>Instrutor e<br>Acompanhante", adv_badge: "✓ Instrutor Certificado",
+    adv_tag: "NOSSOS INSTRUTORES", adv_title: "Instrutores<br>Especializados em<br>Migrantes", adv_badge: "✓ Instrutores Certificados",
     chat_status: "● Online · Responde na hora", footer_sub: "Instrutor: Luis · WhatsApp: +1 (417) 853-2077"
   },
   fr: {
     hero_title_raw: "Obtenez votre Permis<br><em>de Floride</em><br>en 1-2 jours",
     hero_sub: "Des milliers de personnes arrivent en Floride chaque jour.",
     nav_cta: "📲 Prendre RDV",
-    adv_tag: "VOTRE INSTRUCTEUR", adv_title: "Luis<br>Instructeur et<br>Accompagnateur", adv_badge: "✓ Instructeur Certifié",
+    adv_tag: "NOS INSTRUCTEURS", adv_title: "Instructeurs<br>Spécialisés pour<br>Migrants", adv_badge: "✓ Instructeurs Certifiés",
     chat_status: "● En ligne · Répond instantanément", footer_sub: "Instructeur: Luis · WhatsApp: +1 (417) 853-2077"
   },
   ht: {
     hero_title_raw: "Jwenn Lisans<br><em>Florida</em><br>ou nan 1-2 jou",
     hero_sub: "Plizyè milye moun rive Florida chak jou.",
     nav_cta: "📲 Pran Randevou",
-    adv_tag: "ENSTRIKTÈ PÈSONÈL OU", adv_title: "Luis<br>Enstriktè ak<br>Akonpanyatè", adv_badge: "✓ Enstriktè Sètifye",
+    adv_tag: "NOU ENSTRIKTÈ", adv_title: "Enstriktè<br>Espesyalize pou<br>Migran", adv_badge: "✓ Enstriktè Sètifye yo",
     chat_status: "● Anliy · Reponn touswit", footer_sub: "Enstriktè: Luis · WhatsApp: +1 (417) 853-2077"
   }
 };
