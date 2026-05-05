@@ -660,7 +660,7 @@ function toggleChat() {
 }
 
 // ── SOFIA CHATBOT — Google Apps Script (estructura Academia) ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwGjsY0mDgyAzN0kjI7ANCiXzI9or8glhJoZH3x26n9_Fsh7ZG9Jg4Q32946jFyjVUtcw/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwatFXY-3WQTVHOygkmNH4DhOGJV1xjc56UGHBi5gLkI5yxCnbl_GiDjE7qpokb1k_oEg/exec';
 
 let busy = false;
 
@@ -695,15 +695,24 @@ async function sendMsg() {
   addMsg(txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'), 'user');
   showDots();
 
+  // Timeout de 20 segundos para no bloquear el chat
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+
   try {
-    const res  = await fetch(GAS_URL + '?message=' + encodeURIComponent(txt));
+    const res  = await fetch(GAS_URL + '?message=' + encodeURIComponent(txt), { signal: controller.signal });
+    clearTimeout(timer);
     const data = await res.json();
     const reply = (data.answer || data.reply || '').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
     hideDots();
-    addMsg(reply || '⚠️ Sin respuesta.', 'bot');
+    addMsg(reply || '⚠️ Sin respuesta del servidor.', 'bot');
   } catch(err) {
+    clearTimeout(timer);
     hideDots();
-    addMsg('⚠️ Sin conexión ahora mismo. Contáctanos directamente:<br><br>📲 <a href="https://wa.me/14178532077" target="_blank" style="color:var(--wa);font-weight:700">WhatsApp +1 (417) 853-2077</a><br>✈️ <a href="https://t.me/licenciaUSA_bot" target="_blank" style="color:var(--tg);font-weight:700">Telegram @licenciaUSA_bot</a>', 'bot');
+    const msg = err.name === 'AbortError'
+      ? '⏱️ La respuesta tardó demasiado. Intenta de nuevo o contáctanos:<br><br>📲 <a href="https://wa.me/14178532077" target="_blank" style="color:var(--wa);font-weight:700">WhatsApp +1 (417) 853-2077</a>'
+      : '⚠️ Sin conexión ahora mismo. Contáctanos:<br><br>📲 <a href="https://wa.me/14178532077" target="_blank" style="color:var(--wa);font-weight:700">WhatsApp +1 (417) 853-2077</a><br>✈️ <a href="https://t.me/licenciaUSA_bot" target="_blank" style="color:var(--tg);font-weight:700">Telegram @licenciaUSA_bot</a>';
+    addMsg(msg, 'bot');
   } finally {
     busy = false;
     document.getElementById('chatSendBtn').disabled = false;
